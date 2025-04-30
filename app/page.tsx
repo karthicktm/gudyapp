@@ -148,7 +148,7 @@ export default function Home() {
           zIndex: 1 // Place above the sprinkles
         }}>
           {/* Login Button - Using Next.js Link */}
-          <Link href="/login" style={{ 
+          <Link href="/auth/login" style={{ 
             display: 'block', 
             width: '100%', 
             textDecoration: 'none' 
@@ -169,7 +169,7 @@ export default function Home() {
           </Link>
           
           {/* Create Account Button - Using Next.js Link */}
-          <Link href="/signup" style={{ 
+          <Link href="/auth/signup" style={{ 
             display: 'block', 
             width: '100%', 
             textDecoration: 'none' 
