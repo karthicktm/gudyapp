@@ -1,103 +1,231 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [sprinkles, setSprinkles] = useState<React.ReactNode[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    // Generate more sprinkles to cover the entire card
+    const newSprinkles = Array.from({ length: 50 }).map((_, index) => {
+      // Random properties for each sprinkle
+      const size = Math.random() * 8 + 4; // 4-12px
+      // Distribute sprinkles across the entire width
+      const left = Math.random() * 100; // 0-100%
+      // Vary the starting positions so they don't all start at the top
+      const top = Math.random() * -100; // Start between 0 and -100% (above the card)
+      // Faster animation for more visible movement
+      const animationDuration = Math.random() * 5 + 3; // 3-8s
+      // Stagger the start times
+      const animationDelay = Math.random() * 5; // 0-5s delay
+      const color = getRandomColor();
+      
+      return (
+        <div 
+          key={index}
+          style={{
+            position: 'absolute',
+            top: `${top}%`,
+            left: `${left}%`,
+            width: `${size}px`,
+            height: `${size/2}px`,
+            backgroundColor: color,
+            borderRadius: `${size/2}px`,
+            opacity: '0.7',
+            // Define animation directly in the style
+            animationName: 'fallAnimation',
+            animationDuration: `${animationDuration}s`,
+            animationTimingFunction: 'linear',
+            animationDelay: `${animationDelay}s`,
+            animationIterationCount: 'infinite',
+            transform: `rotate(${Math.random() * 360}deg)`,
+            zIndex: 0
+          }}
+        />
+      );
+    });
+    
+    setSprinkles(newSprinkles);
+  }, []);
+
+  return (
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      minHeight: '100vh', 
+      background: '#f5f5f5'
+    }}>
+      {/* Card Container */}
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '360px', 
+        padding: '2rem 1.5rem',
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        background: 'white',
+        borderRadius: '24px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+        position: 'relative',
+        overflow: 'hidden' // Contain the sprinkles within the card
+      }}>
+        {/* Sprinkles Container - Inside the card */}
+        <div style={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%', 
+          pointerEvents: 'none'
+        }}>
+          {sprinkles}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        
+        {/* Logo Circle */}
+        <div style={{ 
+          width: '110px',
+          height: '110px',
+          borderRadius: '50%', 
+          backgroundColor: '#FFC0CB', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          marginBottom: '30px',
+          position: 'relative',
+          zIndex: 1 // Place above the sprinkles
+        }}>
+          <Image 
+            src="/images/gudy-logo.svg" 
+            alt="Gudy Logo" 
+            width={110}
+            height={110}
+            style={{ 
+              objectFit: 'contain'
+            }}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+        
+        {/* Title */}
+        <h1 style={{ 
+          fontFamily: "'Paytone One', sans-serif", 
+          fontSize: '2rem', 
+          fontWeight: 'bold', 
+          color: 'black', 
+          textAlign: 'center', 
+          marginBottom: '10px',
+          lineHeight: '1.2',
+          position: 'relative',
+          zIndex: 1 // Place above the sprinkles
+        }}>
+          Gudy, your<br />cook buddy
+        </h1>
+        
+        {/* Description */}
+        <p style={{ 
+          fontFamily: "'Hanken Grotesk', Regular", 
+          textAlign: 'center', 
+          fontSize: '1rem', 
+          color: '#1f2937', 
+          marginBottom: '40px',
+          lineHeight: '1.5',
+          position: 'relative',
+          zIndex: 1 // Place above the sprinkles
+        }}>
+          Design your perfect dish in 3D<br />
+          Sign in to start!
+        </p>
+        
+        {/* Buttons Container */}
+        <div style={{ 
+          width: '100%', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '16px',
+          position: 'relative',
+          zIndex: 1 // Place above the sprinkles
+        }}>
+          {/* Login Button - Using Next.js Link */}
+          <Link href="/login" style={{ 
+            display: 'block', 
+            width: '100%', 
+            textDecoration: 'none' 
+          }} passHref>
+            <button style={{ 
+              width: '100%', 
+              backgroundColor: '#FF69B1', 
+              color: 'white', 
+              fontWeight: '500', 
+              padding: '14px',
+              borderRadius: '9999px', 
+              border: 'none',
+              fontSize: '1rem',
+              cursor: 'pointer'
+            }}>
+              LOG IN
+            </button>
+          </Link>
+          
+          {/* Create Account Button - Using Next.js Link */}
+          <Link href="/signup" style={{ 
+            display: 'block', 
+            width: '100%', 
+            textDecoration: 'none' 
+          }} passHref>
+            <button style={{ 
+              width: '100%', 
+              backgroundColor: 'white', 
+              color: 'black', 
+              fontWeight: '500', 
+              padding: '14px',
+              borderRadius: '9999px', 
+              border: '1px solid #d1d5db',
+              fontSize: '1rem',
+              cursor: 'pointer'
+            }}>
+              CREATE ACCOUNT
+            </button>
+          </Link>
+        </div>
+      </div>
+      
+      {/* Define keyframes animation separately */}
+      <style jsx global>{`
+        @keyframes fallAnimation {
+          0% {
+            transform: translateY(0) rotate(0deg) translateX(0);
+          }
+          25% {
+            transform: translateY(25vh) rotate(90deg) translateX(15px);
+          }
+          50% {
+            transform: translateY(50vh) rotate(180deg) translateX(-15px);
+          }
+          75% {
+            transform: translateY(75vh) rotate(270deg) translateX(10px);
+          }
+          100% {
+            transform: translateY(100vh) rotate(360deg) translateX(-10px);
+          }
+        }
+      `}</style>
     </div>
   );
+}
+
+// Helper function to generate random sprinkle colors
+function getRandomColor() {
+  const colors = [
+    '#FF6B6B', // Red
+    '#FFB8B8', // Light pink
+    '#FFCE96', // Light orange
+    '#FFD93D', // Yellow
+    '#6BCB77', // Green
+    '#4D96FF', // Blue
+    '#B2A4FF', // Purple
+    '#FF96A6'  // Pink
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
 }
