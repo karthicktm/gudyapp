@@ -1,6 +1,6 @@
 import ResponsiveLayout from '@/components/responsive-layout';
 
-export default function AuthLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;

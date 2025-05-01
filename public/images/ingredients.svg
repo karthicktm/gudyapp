@@ -1,0 +1,75 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="150" cy="150" r="120" fill="#FFF5E0" opacity="0.3" />
+  
+  <!-- Various food items arranged in a circle -->
+  
+  <!-- Watermelon slice -->
+  <g transform="translate(100, 60)">
+    <path d="M0,0 Q50,80 100,0 A50,50 0 0,0 0,0" fill="#FF5252" />
+    <path d="M10,10 Q50,75 90,10 A40,40 0 0,0 10,10" fill="#E8F5E9" />
+    <circle cx="20" cy="25" r="3" fill="#3A3A3A" />
+    <circle cx="35" cy="30" r="3" fill="#3A3A3A" />
+    <circle cx="50" cy="33" r="3" fill="#3A3A3A" />
+    <circle cx="65" cy="30" r="3" fill="#3A3A3A" />
+    <circle cx="80" cy="25" r="3" fill="#3A3A3A" />
+  </g>
+  
+  <!-- Donut -->
+  <g transform="translate(200, 100)">
+    <circle cx="0" cy="0" r="30" fill="#FFCCBC" />
+    <circle cx="0" cy="0" r="10" fill="#FFF5E0" />
+    <path d="M-15,-15 Q0,-25 15,-15 Q25,0 15,15 Q0,25 -15,15 Q-25,0 -15,-15" fill="#FF8A65" fill-opacity="0.5" />
+    <circle cx="-15" cy="-10" r="3" fill="#F48FB1" />
+    <circle cx="0" cy="-20" r="3" fill="#F48FB1" />
+    <circle cx="15" cy="-10" r="3" fill="#F48FB1" />
+    <circle cx="20" cy="5" r="3" fill="#F48FB1" />
+    <circle cx="10" cy="15" r="3" fill="#F48FB1" />
+    <circle cx="-5" cy="20" r="3" fill="#F48FB1" />
+    <circle cx="-20" cy="5" r="3" fill="#F48FB1" />
+  </g>
+  
+  <!-- Peach -->
+  <g transform="translate(75, 150)">
+    <circle cx="0" cy="0" r="25" fill="#FFAB91" />
+    <path d="M0,-25 C10,-25 10,-15 10,-15 L0,-15 Z" fill="#4CAF50" />
+    <path d="M0,-25 C-10,-25 -10,-15 -10,-15 L0,-15 Z" fill="#4CAF50" />
+    <path d="M0,-15 L0,-5" stroke="#4CAF50" stroke-width="2" />
+    <ellipse cx="5" cy="5" rx="12" ry="15" fill="#FF8A65" fill-opacity="0.3" />
+  </g>
+  
+  <!-- Cupcake -->
+  <g transform="translate(150, 200)">
+    <path d="M-20,0 L-15,30 L15,30 L20,0 Z" fill="#8D6E63" />
+    <path d="M-20,0 Q-20,-20 0,-20 Q20,-20 20,0 Z" fill="#FCE4EC" />
+    <circle cx="-10" cy="-7" r="3" fill="#F8BBD0" />
+    <circle cx="0" cy="-15" r="3" fill="#F8BBD0" />
+    <circle cx="10" cy="-7" r="3" fill="#F8BBD0" />
+  </g>
+  
+  <!-- Sushi roll -->
+  <g transform="translate(225, 175)">
+    <rect x="-20" y="-15" width="40" height="30" rx="5" ry="5" fill="#FFF3E0" />
+    <rect x="-15" y="-10" width="30" height="20" rx="3" ry="3" fill="#FF5252" />
+    <rect x="-10" y="-5" width="20" height="10" fill="#FFFFFF" />
+    <rect x="-8" y="-2" width="16" height="4" fill="#4DB6AC" />
+  </g>
+  
+  <!-- Ice cream -->
+  <g transform="translate(50, 225)">
+    <path d="M0,-25 Q20,-25 20,0 L0,0 Z" fill="#FFCCBC" />
+    <path d="M0,-25 Q-20,-25 -20,0 L0,0 Z" fill="#F8BBD0" />
+    <path d="M-20,0 L-10,30 L10,30 L20,0 Z" fill="#FFE0B2" />
+    <circle cx="-10" cy="-15" r="3" fill="#FFFFFF" />
+    <circle cx="10" cy="-15" r="3" fill="#FFFFFF" />
+  </g>
+  
+  <!-- Honey jar -->
+  <g transform="translate(150, 90)">
+    <path d="M-15,-20 L-20,0 L-20,30 L20,30 L20,0 L15,-20 Z" fill="#FFE0B2" />
+    <path d="M-15,-20 L15,-20 L15,-30 L-15,-30 Z" fill="#BDBDBD" />
+    <path d="M-15,-20 L15,-20 L15,0 L-15,0 Z" fill="#FFC107" />
+    <path d="M-15,0 L15,0 L15,10 L-15,10 Z" fill="#FFA000" />
+    <path d="M-15,10 L15,10 L15,20 L-15,20 Z" fill="#FFC107" />
+  </g>
+</svg>
