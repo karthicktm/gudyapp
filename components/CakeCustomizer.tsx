@@ -9,11 +9,11 @@ export default function CakeCustomizer() {
   const router = useRouter();
   const [totalPrice, setTotalPrice] = useState(45);
   const [activeTab, setActiveTab] = useState(0); // Shape selected by default
-  const [selectedShape, setSelectedShape] = useState(0); // First shape selected by default
+  const [selectedOption, setSelectedOption] = useState<number | null>(null); // No option selected by default
   
   // Refs for the scrollable containers
   const toolsContainerRef = useRef<HTMLDivElement>(null);
-  const shapesContainerRef = useRef<HTMLDivElement>(null);
+  const optionsContainerRef = useRef<HTMLDivElement>(null);
   
   // State for tracking device size
   const [isMobile, setIsMobile] = useState(false);
@@ -54,7 +54,7 @@ export default function CakeCustomizer() {
     };
     
     const toolsElement = toolsContainerRef.current;
-    const shapesElement = shapesContainerRef.current;
+    const optionsElement = optionsContainerRef.current;
     
     if (toolsElement) {
       const wheelListener = (event: WheelEvent) => handleWheel(event, toolsElement);
@@ -65,12 +65,12 @@ export default function CakeCustomizer() {
       };
     }
     
-    if (shapesElement) {
-      const wheelListener = (event: WheelEvent) => handleWheel(event, shapesElement);
-      shapesElement.addEventListener('wheel', wheelListener, { passive: false });
+    if (optionsElement) {
+      const wheelListener = (event: WheelEvent) => handleWheel(event, optionsElement);
+      optionsElement.addEventListener('wheel', wheelListener, { passive: false });
       
       return () => {
-        shapesElement.removeEventListener('wheel', wheelListener);
+        optionsElement.removeEventListener('wheel', wheelListener);
       };
     }
   }, []);
@@ -128,37 +128,232 @@ export default function CakeCustomizer() {
     };
   }, [isDragging, activeContainer, scrollLeft, startX]);
 
-  // Tool categories with just icons
+  // Tool categories with names and icons
   const toolCategories = [
-    '/images/shape-icon.svg',
-    '/images/levels-icon.svg',
-    '/images/flavour-icon.svg',
-    '/images/fill-icon.svg',
-    '/images/frosting-icon.svg',
+    { name: 'Shape', icon: '/images/shape-icon.svg' },
+    { name: 'Levels', icon: '/images/levels-icon.svg' },
+    { name: 'Flavour', icon: '/images/flavour-icon.svg' },
+    { name: 'Fill', icon: '/images/fill-icon.svg' },
+    { name: 'Frosting', icon: '/images/frosting-icon.svg' },
   ];
 
-  // Shape options with just images
-  const shapeOptions = [
-    '/images/Round.svg',
-    '/images/Square.svg',
-    '/images/Heart.svg',
-    '/images/Polygon.svg',
-    '/images/add-icon.svg',
+  // Options for each tool category
+  const categoryOptions = [
+    // Shape options
+    [
+      '/images/Round.svg',
+      '/images/Square.svg',
+      '/images/Heart.svg',
+      '/images/Polygon.svg',
+      '/images/add-icon.svg',
+    ],
+    // Levels options
+    [
+      '/images/level-1.svg',
+      '/images/level-2.svg',
+      '/images/level-3.svg',
+      '/images/level-custom.svg',
+    ],
+    // Flavour options
+    [
+      '/images/vanilla.svg',
+      '/images/chocolate.svg',
+      '/images/strawberry.svg',
+      '/images/red-velvet.svg',
+      '/images/carrot.svg',
+    ],
+    // Fill options
+    [
+      '/images/cream.svg',
+      '/images/custard.svg',
+      '/images/jam.svg',
+      '/images/chocolate-fill.svg',
+    ],
+    // Frosting options
+    [
+      '/images/buttercream.svg',
+      '/images/fondant.svg',
+      '/images/ganache.svg',
+      '/images/whipped-cream.svg',
+    ],
   ];
 
   // Size constants for SVGs and containers
   const TOOL_ICON_SIZE = 60;
-  const SHAPE_ICON_SIZE = 25;
-  const SHAPE_CONTAINER_SIZE = 40;
+  const OPTION_ICON_SIZE = 25;
+  const OPTION_CONTAINER_SIZE = 40;
 
-  // Handle tab selection
+  // Handle tab selection and reset selected option
   const handleTabChange = (tabIndex: number) => {
     setActiveTab(tabIndex);
+    setSelectedOption(null); // Clear selection when changing tabs
   };
 
-  // Handle shape selection
-  const handleShapeSelect = (shapeIndex: number) => {
-    setSelectedShape(shapeIndex);
+  // Handle option selection
+  const handleOptionSelect = (optionIndex: number) => {
+    setSelectedOption(optionIndex);
+  };
+
+  // Get current options based on active tab
+  const currentOptions = categoryOptions[activeTab] || [];
+  
+  // Get canvas placeholder text based on active tab
+  const getCanvasPlaceholderText = () => {
+    switch (activeTab) {
+      case 0:
+        return "Select a shape";
+      case 1:
+        return "Select cake levels";
+      case 2:
+        return "Choose a flavor";
+      case 3:
+        return "Select filling";
+      case 4:
+        return "Choose frosting";
+      default:
+        return "Select an option below";
+    }
+  };
+  
+  // Canvas rendering based on selections
+  const renderCanvas = () => {
+    if (selectedOption === null) {
+      // Return placeholder text when no option is selected
+      return (
+        <span style={{
+          color: '#999999',
+          fontSize: '16px'
+        }}>
+          {getCanvasPlaceholderText()}
+        </span>
+      );
+    }
+    
+    // Render different shapes based on the activeTab and selectedOption
+    if (activeTab === 0) { // Shapes tab
+      switch (selectedOption) {
+        case 0: // Round
+          return (
+            <div style={{
+              width: '300px',
+              height: '200px',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-end', // Align to bottom
+              paddingBottom: '10px'
+            }}>
+              {/* Round cake rendered with proper ellipses and straight sides */}
+              <svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Top ellipse */}
+                <ellipse cx="140" cy="40" rx="120" ry="35" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+                
+                {/* Sides - vertical lines */}
+                <line x1="20" y1="40" x2="20" y2="140" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="260" y1="40" x2="260" y2="140" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                
+                {/* Bottom ellipse */}
+                <ellipse cx="140" cy="140" rx="120" ry="35" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+              </svg>
+            </div>
+          );
+        case 1: // Square
+          return (
+            <div style={{
+              width: '280px',
+              height: '180px',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-end', // Align to bottom
+              paddingBottom: '10px'
+            }}>
+              <svg width="260" height="170" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Top rectangle */}
+                <rect x="30" y="20" width="200" height="30" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+                
+                {/* Sides - vertical lines */}
+                <line x1="30" y1="50" x2="30" y2="120" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="230" y1="50" x2="230" y2="120" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                
+                {/* Bottom rectangle */}
+                <rect x="30" y="120" width="200" height="30" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+              </svg>
+            </div>
+          );
+        case 2: // Heart
+          return (
+            <div style={{
+              width: '280px',
+              height: '180px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-end', // Align to bottom
+              paddingBottom: '10px'
+            }}>
+              <svg width="260" height="170" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Top heart shape */}
+                <path d="M130 40C130 40 150 15 180 15C210 15 230 35 230 60C230 85 180 110 130 130C80 110 30 85 30 60C30 35 50 15 80 15C110 15 130 40 130 40Z" 
+                  stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+                
+                {/* Sides - vertical lines */}
+                <line x1="30" y1="60" x2="30" y2="110" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="230" y1="60" x2="230" y2="110" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                
+                {/* Bottom heart shape */}
+                <path d="M130 150C130 150 150 125 180 125C210 125 230 145 230 110C230 135 180 110 130 130C80 110 30 135 30 110C30 145 50 125 80 125C110 125 130 150 130 150Z" 
+                  stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+              </svg>
+            </div>
+          );
+        case 3: // Polygon
+          return (
+            <div style={{
+              width: '280px',
+              height: '180px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-end', // Align to bottom
+              paddingBottom: '10px'
+            }}>
+              <svg width="260" height="170" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Top polygon */}
+                <polygon points="130,20 230,50 180,90 80,90 30,50" 
+                  stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+                
+                {/* Sides - vertical lines */}
+                <line x1="30" y1="50" x2="30" y2="120" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="80" y1="90" x2="80" y2="140" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="180" y1="90" x2="180" y2="140" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                <line x1="230" y1="50" x2="230" y2="120" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5"/>
+                
+                {/* Bottom polygon */}
+                <polygon points="130,170 230,120 180,140 80,140 30,120" 
+                  stroke="#333" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none"/>
+              </svg>
+            </div>
+          );
+        default:
+          return (
+            <span style={{
+              color: '#999999',
+              fontSize: '16px'
+            }}>
+              Custom shape
+            </span>
+          );
+      }
+    } else {
+      // Return a message for other tabs (you can expand this to show visualizations for other options)
+      return (
+        <span style={{
+          color: '#333',
+          fontSize: '16px'
+        }}>
+          {getCanvasPlaceholderText()}
+        </span>
+      );
+    }
   };
 
   return (
@@ -238,22 +433,28 @@ export default function CakeCustomizer() {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {toolCategories.map((iconPath, index) => (
-          <Image 
+        {toolCategories.map((tool, index) => (
+          <div
             key={index}
-            src={iconPath} 
-            alt="Tool icon" 
-            width={TOOL_ICON_SIZE} 
-            height={TOOL_ICON_SIZE}
             onClick={() => handleTabChange(index)}
             style={{
               cursor: 'pointer',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px',
               backgroundColor: activeTab === index ? '#758AFD' : 'transparent',
               borderRadius: '8px',
-              padding: '6px', // Reduced padding (was 8px)
-              flexShrink: 0
             }}
-          />
+          >
+            <Image 
+              src={tool.icon} 
+              alt={`${tool.name} icon`} 
+              width={TOOL_ICON_SIZE} 
+              height={TOOL_ICON_SIZE}
+            />
+          </div>
         ))}
       </div>
 
@@ -296,28 +497,25 @@ export default function CakeCustomizer() {
           />
         </div>
 
-        {/* Canvas Area - Increased height */}
+        {/* Canvas Area */}
         <div style={{
           flex: 1,
-          border: '2px dashed #CCCCCC',
           borderRadius: '12px',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-end', // Align content to bottom
           justifyContent: 'center',
-          margin: '0 0 12px 0', // Reduced bottom margin (was 16px)
-          minHeight: '330px' // Increased height (was 300px)
+          margin: '0 0 12px 0',
+          paddingBottom: '20px', // Add padding at the bottom
+          minHeight: '390px', // Increased height for more space
+          maxHeight: '450px', // Add a max height to prevent overflow
+          border: selectedOption !== null ? 'none' : '2px dashed #CCCCCC',
         }}>
-          <span style={{
-            color: '#999999',
-            fontSize: '16px'
-          }}>
-            Click on a shape
-          </span>
+          {renderCanvas()}
         </div>
 
-        {/* Shape Options - Reduced top margin */}
+        {/* Dynamic Options Based on Active Tab */}
         <div 
-          ref={shapesContainerRef}
+          ref={optionsContainerRef}
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -329,18 +527,18 @@ export default function CakeCustomizer() {
             cursor: isDragging ? 'grabbing' : 'grab'
           }} 
           className="hide-scrollbar scrollable-row"
-          onMouseDown={(e) => handleMouseDown(e, shapesContainerRef)}
+          onMouseDown={(e) => handleMouseDown(e, optionsContainerRef)}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          {shapeOptions.map((iconPath, index) => (
+          {currentOptions.map((iconPath, index) => (
             <div
               key={index}
-              onClick={() => handleShapeSelect(index)}
+              onClick={() => handleOptionSelect(index)}
               style={{
                 cursor: 'pointer',
-                width: `${SHAPE_CONTAINER_SIZE}px`,
-                height: `${SHAPE_CONTAINER_SIZE}px`,
+                width: `${OPTION_CONTAINER_SIZE}px`,
+                height: `${OPTION_CONTAINER_SIZE}px`,
                 flexShrink: 0,
                 position: 'relative',
                 display: 'flex',
@@ -349,18 +547,18 @@ export default function CakeCustomizer() {
                 backgroundColor: 'white',
                 borderRadius: '16px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                border: selectedShape === index ? '2px solid #925EF8' : '1px solid #E5E7EB'
+                border: selectedOption === index ? '2px solid #925EF8' : '1px solid #E5E7EB'
               }}
             >
               <Image 
                 src={iconPath} 
-                alt="Shape option" 
-                width={SHAPE_ICON_SIZE} 
-                height={SHAPE_ICON_SIZE}
+                alt={`Option ${index + 1}`} 
+                width={OPTION_ICON_SIZE} 
+                height={OPTION_ICON_SIZE}
               />
               
-              {/* Purple corner decorations for selected shape */}
-              {selectedShape === index && (
+              {/* Purple corner decorations for selected option */}
+              {selectedOption === index && (
                 <>
                   {/* Top-left corner */}
                   <div style={{
