@@ -186,28 +186,31 @@ export default function Dashboard() {
 
         {/* Start Creating Section */}
         <div style={{ 
-          marginBottom: '20px'
-        }}>
-          <h2 style={{ 
-            fontFamily: "'Paytone One', sans-serif", 
-            fontSize: '22px',
-            margin: '0 0 12px 0'
-          }}>
-            Start creating!
-          </h2>
-          <div style={{ 
-            height: '120px', 
-            backgroundColor: '#FF69B1', 
-            borderRadius: '12px', 
-            display: 'flex', 
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontFamily: 'sans-serif'
-          }}>
-            Rolling Pin Image
-          </div>
-        </div>
+  marginBottom: '20px'
+}}>
+  <h2 style={{ 
+    fontFamily: "'Paytone One', sans-serif", 
+    fontSize: '22px',
+    margin: '0 0 12px 0'
+  }}>
+    Start creating!
+  </h2>
+  <Link href="/customize" style={{ textDecoration: 'none' }}>
+    <div style={{ 
+      height: '120px', 
+      backgroundColor: '#FF69B1', 
+      borderRadius: '12px', 
+      display: 'flex', 
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontFamily: 'sans-serif',
+      cursor: 'pointer'
+    }}>
+      Rolling Pin Image
+    </div>
+  </Link>
+</div>
 
         {/* Challenges Section */}
         <div style={{ 
